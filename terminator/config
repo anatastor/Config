@@ -1,0 +1,17 @@
+# comment
+[global_config]
+  focus = system
+
+[profiles]
+  [[default]]
+    background_color = "#010101"
+    foreground_color = "#eeeeee"
+
+    scollback_lines = "1000"
+
+    cursor_blink = true
+    cursor_shape = "ibeam"
+
+    show_titlebar = false
+  
+    scrollbar_position = "disabled"

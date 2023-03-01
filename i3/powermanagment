@@ -1,0 +1,21 @@
+#!/bin/sh
+
+ret=$(echo -e "lock\nsuspend\nexit\nreboot\npoweroff" | dmenu -l 5 -nb '#222222' -sb '#eeeeee' -sf '#222222' -i)
+
+if [ "$ret" == "lock" ]; then
+	slock
+	return
+elif [ "$ret" == "suspend" ]; then
+	slock systemctl suspend -i
+	return
+elif [ "$ret" == "exit" ]; then
+	#killall Xorg
+	kill -9 -1
+	return
+elif [ "$ret" == "reboot" ]; then
+	systemctl reboot -i
+	return
+elif [ "$ret" == "poweroff" ]; then
+	systemctl poweroff -i
+	return
+fi

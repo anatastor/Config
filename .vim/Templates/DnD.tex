@@ -1,0 +1,198 @@
+
+
+\documentclass[11pt, a4paper]{article}
+\usepackage[paper=a4paper,left=25mm,right=25mm,top=25mm,bottom=25mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\usepackage{eurosym}
+\usepackage{ngerman}
+\usepackage[colorlinks=true,linkcolor=black]{hyperref} % Aus Referenzen einen Link erstellen
+
+\usepackage{multicol}
+\usepackage{calc} % Berechnungen
+\usepackage{graphicx}
+\usepackage{color, colortbl}
+\usepackage{xcolor} % erlaubt das Ändern von Farben
+\usepackage{pdfpages}
+\usepackage{pdflscape} % definierte Seiten im Querformat
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+
+\usepackage[onehalfspacing]{setspace}
+
+
+\def\printfriendly{} %% set to true
+%\let\printfriendly\undefined %% set to false
+
+
+\ifdefined\printfriendly % printer friendly e.g. black and white
+\definecolor{Encounter}{HTML}{FFFFFF} % Hintergrundfarbe für Encounter
+\definecolor{NPC}{gray}{0.9} % Hintergrundfarbe für Personen
+\definecolor{AbilityCheck}{gray}{0.7}
+\definecolor{Loot}{HTML}{FFFFFF}
+\definecolor{Text}{HTML}{FFFFFF}
+\definecolor{Level}{HTML}{FFFFFF}
+\else
+\definecolor{Encounter}{HTML}{A0AE93} % Hintergrundfarbe für Encounter
+\definecolor{NPC}{gray}{0.9} % Hintergrundfarbe für Personen
+\definecolor{AbilityCheck}{gray}{0.7}
+\definecolor{Loot}{HTML}{FBB117}
+\definecolor{Text}{HTML}{FFE5B4}
+\definecolor{Level}{HTML}{69E9EA}
+\fi
+
+
+
+\newenvironment{textbox}[1]{
+  \setlength{\parindent}{0pt}
+  \begin{tcolorbox}[colback=#1, left=0.1cm, right=0.1cm, breakable]
+  \ifdefined\printfriendly
+    \textbf{#1}\\
+  \fi
+  }
+  {
+  \end{tcolorbox}
+}
+
+
+\newcount\modifier
+\newcommand{\stat}[1]{
+  \ifnum #1 > 9
+    \modifier = \numexpr (#1-10) \relax
+  \else
+    \modifier = \numexpr (#1-11) \relax
+  \fi
+  \divide\modifier by 2
+  \textbf{#1} \scriptsize{(
+  \ifnum\modifier > -1
+    +
+  \fi
+  \the\modifier)}
+}
+\def\basics[#1, #2, #3]{ \vspace{0.1cm}
+  \textbf{Armor Class} #1 \\
+  \textbf{Hit Points} #2 \\
+  \textbf{Speed} #3
+}
+
+\def\stats[#1, #2, #3, #4, #5, #6]{
+  \vspace{0.1cm}
+  \hrule
+  \begin{center}
+  %\resizebox{0.8\columnwidth}{!}{
+  \begin{tabular}{ccc}
+    \textbf{STR} &
+    \textbf{DEX} &
+    \textbf{CON} \\
+    \stat{#1} & 
+    \stat{#2} &
+    \stat{#3} \vspace{0.25cm} \\
+    \textbf{INT} &
+    \textbf{WIS} & 
+    \textbf{CHA} \\
+    \stat{#4} &
+    \stat{#5} &
+    \stat{#6} \\
+  \end{tabular}
+  %}
+  \end{center}
+  \hrule
+  \vspace{0.25cm}
+}
+
+\newenvironment{statblock}[1]{
+  \setlength{\parindent}{0pt}
+  \begin{tcolorbox}[colback=Encounter, left=0.1cm, right=0.1cm, breakable]
+  \vspace{0.05cm}
+  {\LARGE\textbf{#1}} \\
+  }
+  {
+  \end{tcolorbox}
+}
+
+
+\newenvironment{monsteraction}[1]{
+  \textbf{#1}
+}
+
+
+\def\fnref#1{
+  \textbf{\nameref{#1}}
+}
+
+
+
+\author{Autor}
+\title{Titel}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\begin{multicols}{2}
+
+\section{Beispiele}
+    \begin{textbox}{NPC}
+      \textbf{Aranis Lathalas}\\
+      \textit{Darkelf}\\
+      Geselle, Assistent, Gehilfe von Asmund.
+
+      Als Asmund Baldric Schwarzrock beauftragte Untersuchungen zum erwachten Wald anzustellen und Asmund Aranis nichts über den Auftrag mitteilen wollte, erwachte in Aranis das Mistrauen.
+      Er hat sich mit seiner Bekanntin Alva zusammengetan um herauszufinden was es mit diesem Auftrag auf sich hat.
+    \end{textbox}
+
+  \section{Creatures}
+    \begin{statblock}{Peter Enis}
+      \textit{Undead, lawfull evil}
+      \hrule
+      \basics[20, 35 (3d8 + 10), 30 ft.]
+      \stats[20, 18, 20, 13, 16, 18]
+
+      \begin{monsteraction}{Test}
+        Die ist eine Test-Action
+      \end{monsteraction}
+
+      \textbf{Actions}
+      \vspace{0.1cm}
+      \hrule
+      \vspace{0.1cm}
+      \begin{monsteraction}{Klaus}
+        Dies ist ein weiterer Test.
+      \end{monsteraction}
+    \end{statblock}
+
+
+    \begin{textbox}{Text}
+      \textbf{Helden gesucht!}\\
+      Rattenplage in Heukewalde \\
+      Seit einem Monat werden wir regelmäßig von Ratten heimgesucht.
+      Unsere Wachen können sie immer wieder vertreiben. \\\\
+      \textit{\textbf{25 GP}} Belohnung für diejenigen die es schaffen das Problem dauerhaft zu lösen.
+    \end{textbox}
+
+    \begin{textbox}{AbilityCheck}
+      \textbf{Perception-Check DC 16:} eine Vertiefung im Boden gegenüber des Einganges kann gefunden werden
+    \end{textbox}
+
+    \begin{textbox}{Encounter}
+      5 Giant Rat (MM 327)\\
+      4 weitere Giant Rats befinden sich im Keller (seperater Encounter oder kommen nach 1-2 Kampfrunden mit dazu)
+    \end{textbox}
+
+    \begin{textbox}{Loot}
+      \textbf{\textit{25 GP}}
+    \end{textbox}
+
+    \begin{textbox}{Level}
+      \textbf{Die Spiele erreichen Level 2}
+    \end{textbox}
+
+
+\end{multicols}
+\end{document}
+
